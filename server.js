@@ -3,7 +3,9 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import EventRouter from './routes/event.js';
-
+import  authenticate  from './middleware/authMiddleware.js';
+import AuthRouter from "./routes/auth.js";
+import UserGroupRouter from './routes/userGroup.js';
 dotenv.config();
 
 const app = express();
@@ -19,8 +21,8 @@ const connection = mongoose.connection;
 connection.once('open', () => {
   console.log("MongoDB database connection established successfully");
 });
-
-app.use('/event', EventRouter);
+app.use('/auth',AuthRouter);
+app.use('/userGroup',authenticate,UserGroupRouter);
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
 });
